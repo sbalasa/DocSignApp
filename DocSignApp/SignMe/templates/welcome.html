@@ -1,0 +1,35 @@
+<html>
+
+<body style="background-color:#A3A6BB;">
+    <form class="bit4id-auth" method="post" action="http://192.168.56.102:8080/files/">
+        <div class="bit4id-authReq" style="display: none">
+            <div class="bit4id-challenge">mUXuTaowfPylJzzRMsfmpg==</div>
+            <div class="bit4id-certType">ANY</div>
+            <div class="bit4id-certInfo">CN</div>
+            <div class="bit4id-no_tslFilter">NO</div>
+            <div class="bit4id-revokedFilter">NO</div>
+        </div>
+        <br><br><br><br><br><br><br>
+        <div style="text-align:center;">
+            <h1>Welcome to Document Signing Web App !!</h1>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <div id="bit4id-status"></div>
+        <style>
+            img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+        <div>
+            <img src="../static/smart_login.jpg" class="center">
+        </div>
+        <div style="text-align:center;">
+            <input disabled type="submit" value="Smart card authentication" align="center" />
+        </div>
+    </form>
+    <script src="http://testserverbit.com:8081/webapptest/smartengine/bit4id-auth.js"></script>
+</body>
+
+</html>
