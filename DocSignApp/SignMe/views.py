@@ -55,6 +55,10 @@ def sign_file(request):
             return render(request, "error.html", {"error_msg": "Cannot sign non PDF files with PAdES signature type"})
         if file_extension != "xml" and any(i for i in ["MD5", "SHA1", "SHA256", "SHA512"] if i == signature_algorithm):
             return render(request, "error.html", {"error_msg": f"Cannot sign non XML files with {signature_algorithm}"})
+        if file_extension == "xml" and any(
+            i for i in ["RSASHA1", "RSAMD5", "RSASHA256", "RSASHA512"] if i == signature_algorithm
+        ):
+            return render(request, "error.html", {"error_msg": f"Cannot sign XML files with {signature_algorithm}"})
     return render(
         request,
         "file_upload.html",
@@ -69,10 +73,11 @@ def sign_file(request):
 
 @csrf_exempt
 def uploaded(request):
-    shutil.copy(
-        f"{CONNECTOR_PATH}/var/test_output/webapptest/test.pdf",
-        f"./SignMe/static/signed/signed-{SIGNATURE_TYPE}-{DOCUMENT_FILENAME}",
-    )
+    if request.method == "POST":
+        shutil.copy(
+            f"{CONNECTOR_PATH}/var/test_output/webapptest/test.pdf",
+            f"./SignMe/static/signed/signed-{SIGNATURE_TYPE}-{DOCUMENT_FILENAME}",
+        )
     return render(
         request,
         "success.html",
@@ -99,7 +104,11 @@ def file_upload(request):
         if file_extension != "pdf" and signature_type == "PAdES":
             return render(request, "error.html", {"error_msg": "Cannot sign non PDF files with PAdES signature type"})
         if file_extension != "xml" and any(i for i in ["MD5", "SHA1", "SHA256", "SHA512"] if i == signature_algorithm):
-            return render(request), "error.html", {"error_msg": f"Cannot sign non XML files with {signature_algorithm}"}
+            return render(request, "error.html", {"error_msg": f"Cannot sign non XML files with {signature_algorithm}"})
+        if file_extension == "xml" and any(
+            i for i in ["RSASHA1", "RSAMD5", "RSASHA256", "RSASHA512"] if i == signature_algorithm
+        ):
+            return render(request, "error.html", {"error_msg": f"Cannot sign XML files with {signature_algorithm}"})
         return render(
             request,
             "file_upload.html",
